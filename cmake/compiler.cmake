@@ -1,0 +1,12 @@
+#set cmake and c++ env param
+SET(CMAKE_CXX_COMPILER "/opt/compiler/gcc-4.8.2/bin/g++")
+MESSAGE(STATUS "change CMAKE_CXX_COMPILER: " ${CMAKE_CXX_COMPILER})
+SET(EXECUTABLE_OUTPUT_PATH ${ABS_PROJECT_SOURCE_DIR}/output/bin)
+MESSAGE(STATUS "EXECUTABLE_OUTPUT_PATH: " ${EXECUTABLE_OUTPUT_PATH})
+SET(LIBRARY_OUTPUT_PATH ${ABS_PROJECT_SOURCE_DIR}/output/lib)
+MESSAGE(STATUS "LIBRARY_OUTPUT_PATH: " ${LIBRARY_OUTPUT_PATH})
+
+#add comile param for g++
+SET(CMAKE_CXX_FLAGS "-O2 -std=c++11 -g -Wall -Wextra -Werror -Wno-unused-parameter -Woverloaded-virtual -Wwrite-strings -MMD")
+
+MESSAGE(STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS})
