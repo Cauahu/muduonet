@@ -12,6 +12,7 @@
 
 #include <string.h>
 #include <string>
+#include <iostream>
 
 namespace muduonet {
 
@@ -46,7 +47,7 @@ public:
     
     }
 
-    StringPiece(cosnt char* offset, int len) : _str(offset), _length(len) {
+    StringPiece(const char* offset, int len) : _str(offset), _length(len) {
     
     }
 
@@ -55,8 +56,12 @@ public:
     }
 
     StringPiece& operator=(const StringPiece& sp) {
+        if(this == &sp) {
+            return *this;
+        }
         _str = sp._str;
         _length = sp._length;
+        return *this;
     }
 
     const char* data() const {
@@ -114,15 +119,53 @@ public:
 
     bool operator<(const StringPiece& sp) const {
         int r = memcmp(_str, sp._str, _length < sp._length? _length : sp._length);
-        return (r < 0) || ((r == 0))
+        return (r < 0) || ((r == 0) && (_length < sp._length));
     }
+    
+    bool operator<=(const StringPiece& sp) const {
+        int r = memcmp(_str, sp._str, _length < sp._length? _length : sp._length);
+        return (r < 0) || ((r == 0) && (_length <= sp._length));
+    }
+
+    bool operator>(const StringPiece& sp) const {
+        int r = memcmp(_str, sp._str, _length < sp._length? _length : sp._length);
+        return (r > 0) || ((r == 0) && (_length > sp._length));
+    }
+
+    bool operator>=(const StringPiece& sp) const {
+        int r = memcmp(_str, sp._str, _length < sp._length? _length : sp._length);
+        return (r > 0) || ((r == 0) && (_length >= sp._length));
+    }
+
+    int compare(const StringPiece& sp) {
+        int r = memcmp(_str, sp._str, _length < sp._length? _length : sp._length);
+        
+        if (0 == r && _length < sp._length) {
+            return -1;
+        }
+        
+        if (0 == r && _length > sp._length) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    std::string as_string() {
+        return std::string(data(), size());
+    }
+
 
 private:
     const char* _str;
     int _length;
 };
 
-}
+} //namespace muduonet
 
+std::ostream& operator<<(std::ostream& o, const muduonet::StringPiece& sp) {
+    o << sp.data();
+    return o;
+}
 
 #endif //MUDUONET_BASE_STRINGPIECE_H

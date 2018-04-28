@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "gtest/gtest.h"
 #include "../include/base/mutex.h"
 #include "../include/base/condition.h"
