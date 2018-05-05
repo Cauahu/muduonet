@@ -9,7 +9,7 @@
 #ifndef MUDUONET_BASE_LOGSTREAM_H
 #define MUDUONET_BASE_LOGSTREAM_H
 
-#include <base/stringpiece.h>
+#include "base/stringpiece.h"
 #include <string.h>
 #include <string>
 
@@ -30,7 +30,7 @@ public:
     
     }
     
-    const char* data() { return _data; }
+    const char* data() const { return _data; }
     
     int length() const {
         return static_cast<int>(_cur - _data);
@@ -83,6 +83,7 @@ public:
         _buffer.append(v? "1":"0", 1);
         return *this;
     }
+
     LogStream& operator<<(short);
     LogStream& operator<<(unsigned short);
     LogStream& operator<<(int);
@@ -139,7 +140,9 @@ private:
 class Fmt {
 public:
     template<typename T>
-    Fmt(const char* fmt, T val);
+    Fmt(const char* fmt, T val) {
+        _length = snprintf(_buf, sizeof(_buf), fmt, val);
+    }
 
     const char* data() const { return _buf; }
     int length() const { return _length; }
@@ -148,11 +151,6 @@ private:
     char _buf[32];
     int _length;
 };
-
-inline LogStream& opreator<<(LogStream& s, const Fmt& fmt) {
-    s.append(fmt.data(), fmt.length());
-    return s;
-}
 
 }
 

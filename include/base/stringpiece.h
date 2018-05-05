@@ -68,7 +68,7 @@ public:
         return _str;
     }
 
-    int size() {
+    int size() const {
         return _length;
     }
 
@@ -162,10 +162,5 @@ private:
 };
 
 } //namespace muduonet
-
-std::ostream& operator<<(std::ostream& o, const muduonet::StringPiece& sp) {
-    o << sp.data();
-    return o;
-}
 
 #endif //MUDUONET_BASE_STRINGPIECE_H

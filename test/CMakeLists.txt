@@ -17,8 +17,8 @@ link_directories(${PROJECT_SOURCE_DIR}/output/lib)
 #===== compile gtest formatter file =====
 find_package(gtest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
-add_executable(gtest_mutex_condition ${PROJECT_SOURCE_DIR}/test/gtest_mutex_condition.cc)
-target_link_libraries(gtest_mutex_condition ${GTEST_LIBRARIES} muduonet pthread)
+add_executable(gtest_logging ${PROJECT_SOURCE_DIR}/test/gtest_logging.cc)
+target_link_libraries(gtest_logging ${GTEST_LIBRARIES} muduonet pthread)
 #===== compile gtest formatter file end =====
 
 #===== compile gtest parser file =====
