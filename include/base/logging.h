@@ -29,10 +29,12 @@ public:
     class SourceFile {
     public:
         SourceFile(const char* filename) : _data(filename) {
+            /*
             const char* slash = strrchr(_data, '/');
             if (slash) {
                 _data = slash + 1;
             }
+            */
             _size = static_cast<int>(strlen(_data));
         }
 

@@ -59,8 +59,9 @@ using namespace muduonet;
 
 Logger::Impl::Impl(LogLevel level, int savedErrno, const SourceFile& file, int line) : _time(Timestamp::now()), _stream(), _level(level), _line(line), _basename(file){
     formatTime();
-    _stream << static_cast<int>(getpid());
-    _stream << T(LogLevelName[level], 6);
+    _stream << " " << static_cast<int>(getpid());
+    _stream << " " << T(LogLevelName[level], strlen(LogLevelName[level]));
+    _stream << " " << _basename << ":" << _line << " ";
     if (savedErrno != 0) {
         _stream << strerror(savedErrno) << " [" << savedErrno << "]";
     }
@@ -69,18 +70,18 @@ Logger::Impl::Impl(LogLevel level, int savedErrno, const SourceFile& file, int l
 void Logger::Impl::formatTime() {
     int64_t microSecondSinceEpoch = _time.microseconds();
     time_t seconds = static_cast<time_t>(microSecondSinceEpoch / Timestamp::kMicroSecondsPerSecond);
-    int microseconds = static_cast<int>(microSecondSinceEpoch % Timestamp::kMicroSecondsPerSecond);
+    int microseconds = static_cast<int>(microSecondSinceEpoch % Timestamp::kMicroSecondsPerSecond) / 1000;
 
     struct tm tm_time;
-    gmtime_r(&seconds, &tm_time);
+    localtime_r(&seconds, &tm_time);
     snprintf(t_time, sizeof(t_time), "%4d%02d%02d %02d:%02d:%02d", tm_time.tm_year + 1900, tm_time.tm_mon + 1, tm_time.tm_mday, tm_time.tm_hour, tm_time.tm_min, tm_time.tm_sec);
     
-    Fmt us(".%06d", microseconds);
-    _stream << T(t_time, 17) << T(us.data(), 8);
+    Fmt us(".%03d", microseconds);
+    _stream << T(t_time, 17) << T(us.data(), 4);
 }
 
 void Logger::Impl::finish() {
-    _stream << " - " << _basename << ":" << _line << '\n';
+    _stream << '\n';
 }
 
 Logger::Logger(SourceFile file, int line) : _impl(INFO, 0, file, line) {
