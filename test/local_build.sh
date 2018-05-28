@@ -17,6 +17,9 @@ export PATH=/opt/tool/broc/client:$PATH
 #    echo 'broc build failed!!!'
 #    exit 1
 #}
+
+sh local_build.sh
+
 cd -
 
 if [ -d build ];then
@@ -34,5 +37,7 @@ echo "cmake end"
 echo "clean cmake files"
 rm -rf build
 echo "clean cmake files done"
+
+cp ../output/bin/* ./bin/
 
 exit 0

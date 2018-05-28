@@ -15,10 +15,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 link_directories(${PROJECT_SOURCE_DIR}/output/lib)
 
 #===== compile gtest formatter file =====
+SET(TEST_FILE_NAME "gtest_date")
 find_package(gtest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
-add_executable(gtest_logging ${PROJECT_SOURCE_DIR}/test/gtest_logging.cc)
-target_link_libraries(gtest_logging ${GTEST_LIBRARIES} muduonet pthread)
+add_executable(${TEST_FILE_NAME} ${PROJECT_SOURCE_DIR}/test/${TEST_FILE_NAME}.cc)
+target_link_libraries(${TEST_FILE_NAME} ${GTEST_LIBRARIES} muduonet pthread)
 #===== compile gtest formatter file end =====
 
 #===== compile gtest parser file =====
